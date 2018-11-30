@@ -5,6 +5,17 @@ var Promise = require("bluebird");
 
 var foldersCache, foldersCacheTime;
 
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
 function flattenFolders(node, result = []){
 	if(!node.root) {
     	result.push(utf7.imap.decode(node.path));
@@ -17,6 +28,17 @@ function flattenFolders(node, result = []){
 
 function getClient() {
 	return new ImapClient(config.server.host, config.server.port, config.server.options);
+}
+
+function getRecipients(folders, path) {
+	var result = folders.findIndex((item) => {
+		return item.path.toLowerCase() === path.toLowerCase();
+	});
+	if (result > -1) {
+		return folders[result].recipients;
+	} else {
+		return [];
+	}
 }
 
 exports.subscribe = (folders, path, username) => {
@@ -53,14 +75,19 @@ exports.unsubscribe = (folders, path, username) => {
 }
 
 exports.listFolders = () => {
-	if (!foldersCacheTime || !foldersCache || foldersCacheTime - Date.now() > 1000 * 60 * 60 * 24) {
+	if (!foldersCacheTime || !foldersCache || Date.now() - foldersCacheTime  > 1000 * 60 * 60 * 24) {
 		var client = getClient();
 		return client.connect()
 			.then(() => {
 				return client.listMailboxes()
 			})
 			.then((mailboxes) => {
-				return flattenFolders(mailboxes);			
+				var folders =  flattenFolders(mailboxes);					
+				if (config.excludeFolders && config.excludeFolders.length > 0) {
+					return folders.filter((folder) => {return !config.excludeFolders.includes(folder);});
+				} else {
+					return folders;
+				}					
 			})
 			.finally(() => {
 				return client.close();
@@ -70,30 +97,40 @@ exports.listFolders = () => {
 	}
 }
 
-exports.checkEmails = (folders) => {
-	return Promise.all(folders.map((folder) => {
-		var client = getClient();
-		return client.connect()
-			.then(() => {
-				return client.search(utf7.imap.encode(folder.path), { unkeyword: 'discourse-mailbot' }, { byUid: true })
-			})
-			.then((uids) => {
-				if (uids && uids.length > 0) {
-					return client.setFlags(utf7.imap.encode(folder.path), uids.join(','), {add: ['discourse-mailbot'], set: ['discourse-mailbot']}, { byUid: true})
-					  .then(() => {
-					  	return client.listMessages(utf7.imap.encode(folder.path), uids.join(','), ['uid', 'flags', 'envelope', 'bodystructure'], { byUid: true});
-					  })
-					
-				}				
-				else {
-					return [];
-				}
-			})
-			.then((messages) => {
-				return {folder: folder, messages: messages};
-			})
-			.finally(() =>  {
-				return client.close();
-			})
-	}));
+exports.checkEmails = (subscriptions) => {
+	return this.listFolders()
+		.then((folders) => {
+			return 	Promise.all(folders.map((folder) => {
+				var recipients = getRecipients(subscriptions, folder);
+				var client = getClient();
+				return client.connect()
+					.then(() => {
+						return client.search(utf7.imap.encode(folder), { unkeyword: 'mailbot-' + folder.hashCode() }, { byUid: true })
+					})
+					.then((uids) => {
+						if (uids && uids.length > 0) {
+							return client.setFlags(utf7.imap.encode(folder), uids.join(','), {add: ['mailbot-' + folder.hashCode()], set: ['mailbot-'+ folder.hashCode()]}, { byUid: true})
+							  .then(() => {
+							  	if (recipients.length > 0) {
+							  		return client.listMessages(utf7.imap.encode(folder), uids.join(','), ['uid', 'flags', 'envelope', 'bodystructure'], { byUid: true});
+							  	} else {
+							  		return [];
+							  	}
+							  	
+							  })
+							
+						}				
+						else {
+							return [];
+						}
+					})
+					.then((messages) => {
+						return {folder: {path: folder, recipients: recipients}, messages: messages};
+					})
+					.finally(() =>  {
+						return client.close();
+					})
+			}));
+
+		})
 }

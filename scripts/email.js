@@ -64,9 +64,6 @@ module.exports = (robot) => {
 	}
 
 
-
-
-
   	robot.listenerMiddleware((context, next, done) => {
   		var security = robot.brain.get("security");
   		// refresh every hour
