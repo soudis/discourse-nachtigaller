@@ -86,7 +86,7 @@ exports.checkEmails = (folders) => {
 					
 				}				
 				else {
-					return;
+					return [];
 				}
 			})
 			.then((messages) => {
