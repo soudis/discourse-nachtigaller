@@ -15,15 +15,15 @@ services:
         max-size: 50m
 
   bot:
-    image: node
+    build:
+      context: .
     links:
      - redis
     volumes:
-     - .:/starter
-    working_dir: /starter
+     - .:/discourse-nachtigaller
     environment:
       REDIS_URL: "redis://redis:6379/nachtigaller"
-    command: bin/hubot -a discourse-adapter -n abdul_nachtigaller -d
+      HUBOT_LOG_LEVEL: "debug"
     logging:
       options:
         max-size: 50m
