@@ -13,6 +13,7 @@
 			"logLevel": "debug"
 		}
 	},
+    "excludeFolders": ["INBOX.Useles","Spam"],	
 	"pollingDelay": 60,
 	"discourse": {
 		"apiurl": "https://discourse.habidat.org",
