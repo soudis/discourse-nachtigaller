@@ -1,0 +1,25 @@
+{
+	"server": {
+		"host": "mailhost.tld",
+		"port": 143,
+		"options": {
+			"requireTLS": true,
+			"enableCompression": true,
+			"useSecureTransprot": true,
+			"auth": {
+				"user": "username",
+				"pass": "password"
+			},
+			"logLevel": "debug"
+		}
+	},
+	"pollingDelay": 60,
+	"discourse": {
+		"apiurl": "https://discourse.habidat.org",
+		"apikey": "apikey",
+		"username": "abdul_nachtigaller",
+		"allowedGroup": "testgruppe"
+	}
+
+	
+}
