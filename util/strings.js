@@ -3,6 +3,10 @@ var sprintf = require("sprintf-js").sprintf;
 const strings = {
 	newemail_title: "[%(folder)s] %(subject)s",
 	newemail_body: "Es gibt eine neue E-Mail von **%(address)s** mit dem Betreff **%(subject)s** im Ordner **%(folder)s**",
+	notification_first_title: "Erinnerung an %(description)s",
+	notification_first_body: "Ich soll dich/euch an **%(description)s** erinnern. Bitte gib Bescheid wenn das schon gemacht ist und sagt *erledigt*",
+	notification_second_title: "%(attempt)i. Erinnerung an %(description)s",
+	notification_second_body: "Ich habe leider noch immer nichts von dir/euch gehört, deswegen zum %(attempt)i. Mal die Erinnerung an %(description)s. Bitte gib Bescheid wenn das schon gemacht ist und sagt *erledigt*",
 	subscribed_success: "Du hast das Postfach **%(mailbox)s** erfolgreich abonniert!",
 	subscribed_fail: "Das Postfach **%(mailbox)s** kann ich leider nicht finden, versuch es noch einmal. Folgende Postfächer stehen dir zur Auswahl: \n\n* %(mailboxes)s",
 	unsubscribed_fail: "Das Postfach **%(mailbox)s** kann ich leider nicht finden, versuch es noch einmal.",

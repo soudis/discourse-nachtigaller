@@ -20,6 +20,10 @@
 		"apikey": "apikey",
 		"username": "abdul_nachtigaller",
 		"allowedGroup": "testgruppe"
+	},
+	"taskNotifications": {
+		"defaultInterval": 7,
+		"checkDelay": 10		
 	}
 
 	
