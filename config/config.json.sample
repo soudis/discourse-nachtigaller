@@ -15,15 +15,17 @@
 	},
     "excludeFolders": ["INBOX.Useles","Spam"],	
 	"pollingDelay": 60,
+	"checkMail": true,
 	"discourse": {
 		"apiurl": "https://discourse.habidat.org",
 		"apikey": "apikey",
 		"username": "abdul_nachtigaller",
 		"allowedGroup": "testgruppe"
 	},
-	"taskNotifications": {
+	"notifications": {
 		"defaultInterval": 7,
-		"checkDelay": 10		
+		"checkDelay": 10,
+		"checkNotifications" : true
 	}
 
 	

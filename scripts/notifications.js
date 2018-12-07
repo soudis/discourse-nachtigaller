@@ -3,6 +3,7 @@ var config = require('../config/config.json');
 var querystring = require('query-string');
 var _t = require('../util/strings')._t;
 var moment = require('moment');
+var calendar = require('../util/calendar');
 
 var discourse = require('../util/discourse');
 var Promise = require("bluebird");
@@ -73,7 +74,10 @@ module.exports = (robot) => {
 	  		console.log("ERROR checking notifications: " + (error.stack || error));
 	  	})
 	};
-	setInterval(checkNotfications, 1000 * config.notifications.checkDelay);
+
+	if (config.notifications.checkNotifications) {
+		setInterval(checkNotfications, 1000 * config.notifications.checkDelay);
+	}
 
 	robot.respond("/(.*) am (.*) an (.*) erinnern.*/i", (res) => {
 

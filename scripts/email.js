@@ -52,9 +52,10 @@ module.exports = (robot) => {
   			console.log("ERROR polling e-mail: " + error.stack);
   		})
   }
+  if (config.checkMails) {
+	  setInterval(checkEmails, 1000 * config.pollingDelay);
+  }
 
-  setInterval(checkEmails, 1000 * config.pollingDelay);
-  checkEmails();
 
   robot.respond("/.*Postfächer.*/i", (res) => {
   	//console.log("user: " + JSON.stringify(res.message.user));
