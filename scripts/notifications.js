@@ -114,8 +114,12 @@ module.exports = (robot) => {
 			notifications.push(notification);
 			robot.brain.set(notifications);
 
+			return calendar.createEvent(notification.date, notification.date, notification.description + ": " + notification.recipients.join(','), notification.id)
+				.then(() => {return notification;});
+
 			//console.log('new Notifications: ' + JSON.stringify(notifications, null, 2));
 
+		}).then(() => {
 			res.reply(discourse.humblify("Ich werde " + notification.recipients.join(',') + " an " + notification.description + " erinnern! Immer und immer wieder..."));
 		}).catch((error) => {
 			res.reply(discourse.humblify(_t("error", {error:error.stack || error})));
