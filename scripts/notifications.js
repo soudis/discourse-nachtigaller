@@ -119,7 +119,7 @@ module.exports = (robot) => {
 
 			//console.log('new Notifications: ' + JSON.stringify(notifications, null, 2));
 
-		}).then(() => {
+		}).then((notification) => {
 			res.reply(discourse.humblify("Ich werde " + notification.recipients.join(',') + " an " + notification.description + " erinnern! Immer und immer wieder..."));
 		}).catch((error) => {
 			res.reply(discourse.humblify(_t("error", {error:error.stack || error})));
