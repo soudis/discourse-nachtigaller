@@ -11,7 +11,7 @@ module.exports = (robot) => {
   		// refresh every hour
   		if (!security || !security.allowedUsers || security.allowedUsers.length == 0 || !security.lastRefresh || Date.now() - security.lastRefresh > 1000 * 60 * 60) {
   			security =  {};
-			robot.http(discourse.discourseURL('groups/' + config.discourse.allowedGroup + '/members.json'))
+			robot.http(discourse.discourseURL('groups/' + config.discourse.allowedGroup + '/members.json', {limit:200, offset:0}))
 				.header('Accept', 'application/json')
 			    .get()((err, response, body) => {
 			    	console.log("err: " + err + ", response: " + response + ", body: " + body);
