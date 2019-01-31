@@ -135,10 +135,15 @@ module.exports = (robot) => {
 		})
 		if(id > -1) {
 			notification = notifications[id];
-			notifications.splice(id, 1);
-
+			if (notification.dones) {
+				notification.dones ++;
+			} else {
+				notification.dones = 1;
+			}
+			if (notification.dones >= notification.recipients.length && !noticiation.recipients.include(config.discourse.allowedGroup)) {
+				notifications.splice(id, 1);
+			}
 			//console.log("new Notificaitons after erledigt: " + JSON.stringify(notifications, null, 2));
-
 			robot.brain.set('notifications', notifications);
 
 			res.reply(discourse.humblify("Danke fürs Erledigen!!! :heart:"));

@@ -18,6 +18,7 @@ module.exports = (robot) => {
 			    	body = JSON.parse(body);
 			    	if(!err && !body.errors){
 			    		security.allowedUsers = body.members.map((member) => {return member.username;});
+			    		security.allowedUsers.push(config.discourse.allowedGroup);
 			    		security.lastRefresh = Date.now();		
 			    		console.log("allowed: " + JSON.stringify(security.allowedUsers));			    		
 			    		robot.brain.set("security", security);
