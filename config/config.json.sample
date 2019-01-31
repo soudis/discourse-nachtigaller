@@ -16,6 +16,7 @@
     "excludeFolders": ["INBOX.Useles","Spam"],	
 	"pollingDelay": 60,
 	"checkMail": true,
+	"debug": false,
 	"discourse": {
 		"apiurl": "https://discourse.habidat.org",
 		"apikey": "apikey",

@@ -74,29 +74,55 @@ exports.getEventsBetween = (start, end) => {
 		})	
 }
 
-exports.createEvent = (start, end, summary, uid) => {
+exports.createEvent = (start, end, summary, uid, repeat = undefined) => {
 	return getCalendar()
 		.then((calendar) => {
 			//console.log("calendar: " + stringify(calendar, null, 2));
-			event = 
-				{
-				  "VCALENDAR": [
-				    {
-				      "PRODID": "-//Abdul Nachtigaller//DE",
-				      "VERSION": "2.0",
-				      "VEVENT": [
-				        {
-				          "DTSTART;VALUE=DATE": moment(start).format("YYYYMMDD"),
-				          "DTEND;VALUE=DATE": moment(end).format("YYYYMMDD"),
-				          "DTSTAMP": moment().format("YYYYMMDDTHHmmss") + "Z",
-				          "UID": uid + "@abdul-nachtigaller",
-				          "STATUS": "CONFIRMED",
-				          "SUMMARY": summary
-				        }
-				       ]
-				    }
-				    ]
-				};			
+			var event;
+			if (repeat) {
+				event = 
+					{
+					  "VCALENDAR": [
+					    {
+					      "PRODID": "-//Abdul Nachtigaller//DE",
+					      "VERSION": "2.0",
+					      "VEVENT": [
+					        {
+					          "DTSTART;VALUE=DATE": moment(start).format("YYYYMMDD"),
+					          "DTEND;VALUE=DATE": moment(end).format("YYYYMMDD"),
+					          "DTSTAMP": moment().format("YYYYMMDDTHHmmss") + "Z",
+							  "RRULE": "FREQ="+repeat.type+";INTERVAL="+repeat.interval,
+					          "UID": uid + "@abdul-nachtigaller",
+					          "STATUS": "CONFIRMED",
+					          "SUMMARY": summary
+					        }
+					       ]
+					    }
+					    ]
+					};			
+
+			} else {
+				event = 
+					{
+					  "VCALENDAR": [
+					    {
+					      "PRODID": "-//Abdul Nachtigaller//DE",
+					      "VERSION": "2.0",
+					      "VEVENT": [
+					        {
+					          "DTSTART;VALUE=DATE": moment(start).format("YYYYMMDD"),
+					          "DTEND;VALUE=DATE": moment(end).format("YYYYMMDD"),
+					          "DTSTAMP": moment().format("YYYYMMDDTHHmmss") + "Z",
+					          "UID": uid + "@abdul-nachtigaller",
+					          "STATUS": "CONFIRMED",
+					          "SUMMARY": summary
+					        }
+					       ]
+					    }
+					    ]
+					};							
+			}
+
 			return dav.createCalendarObject(calendar, {xhr:xhr, filename: uid + "_abdul-nachtigaller.ics", data: ical.revert(event)});		
 		})
 }
