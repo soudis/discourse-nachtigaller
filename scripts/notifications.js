@@ -33,7 +33,7 @@ module.exports = (robot) => {
 	  	notifications = robot.brain.get("notifications") || [];
 
 	  	Promise.all(notifications.map((notification) => {
-	  		if (moment(notification.date).isSameOrBefore(moment(), 'day') && (!notification.dones || notificantion.dones < notification.recipients.length)) {
+	  		if (moment(notification.date).isSameOrBefore(moment(), 'day') && (!notification.dones || notification.dones < notification.recipients.length)) {
 	  			if (!notification.attempts || notification.attempts === 0) {
 	  				return discourse.sendPM(robot, 
 								_t("notification_first_title", {description: notification.description}), 
