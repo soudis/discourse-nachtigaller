@@ -323,4 +323,26 @@ module.exports = (robot) => {
 
 	});	
 
+	robot.respond("Alle /(.*) löschen!!!/i", (res) => {
+
+
+		notifications = robot.brain.get('notifications');
+		var toDelete = [];
+		for (var i = 0; i< notifications.length; i++) {
+			if (notifications[i].description == res.match[1].trim()) {
+				toDelete.push(i);
+			}
+		}
+		for (var i = toDelete.length-1; i>=0; i--) {
+			notifications.splice(toDelete[i], 1);
+		}
+
+		if (config.debug) {
+			console.log("DEBUG: " + toDelete.length + " noticicaitons deleted by 'Alle " + res.match[1].trim() + " löschen!!!* command");
+		}		
+
+		robot.brain.set('notifications', notifications);
+
+	});		
+
 }
