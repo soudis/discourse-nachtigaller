@@ -343,6 +343,8 @@ module.exports = (robot) => {
 
 		robot.brain.set('notifications', notifications);
 
+		res.reply(discourse.humblify("Ich habe " + toDelete.length + " Benachrichtigungen mit dem Titel '" + res.match[1].trim() + "' gelöscht!"));
+
 	});		
 
 }
