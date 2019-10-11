@@ -323,7 +323,7 @@ module.exports = (robot) => {
 
 	});	
 
-	robot.respond("Alle /(.*) löschen!!!/i", (res) => {
+	robot.respond("/Alle (.*) löschen!!!/i", (res) => {
 
 
 		notifications = robot.brain.get('notifications');
