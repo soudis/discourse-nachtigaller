@@ -24,6 +24,9 @@ services:
     environment:
       REDIS_URL: "redis://redis:6379/nachtigaller"
       HUBOT_LOG_LEVEL: "debug"
+      HUBOT_DISCOURSE_USERNAME: "username"
+      HUBOT_DISCOURSE_KEY: "secret"
+      HUBOT_DISCOURSE_SERVER: "https://discourse.example.org/"
     logging:
       options:
         max-size: 50m

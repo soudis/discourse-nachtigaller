@@ -5,8 +5,8 @@ set -e
 #//npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
-export HUBOT_DISCOURSE_USERNAME="abdul_nachtigaller"
-export HUBOT_DISCOURSE_KEY="4ec0d6d2a7a4c4af3872bf671dbc4516c34e16bb56d5de7c79a8c3e88f5fb901"
-export HUBOT_DISCOURSE_SERVER="https://discourse.habidat.org/"
+#export HUBOT_DISCOURSE_USERNAME="abdul_nachtigaller"
+#export HUBOT_DISCOURSE_KEY="4ec0d6d2a7a4c4af3872bf671dbc4516c34e16bb56d5de7c79a8c3e88f5fb901"
+#export HUBOT_DISCOURSE_SERVER="https://discourse.habidat.org/"
 
 exec node_modules/.bin/hubot "$@"

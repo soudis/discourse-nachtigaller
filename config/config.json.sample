@@ -18,9 +18,6 @@
 	"checkMail": true,
 	"debug": false,
 	"discourse": {
-		"apiurl": "https://discourse.habidat.org",
-		"apikey": "apikey",
-		"username": "abdul_nachtigaller",
 		"allowedGroup": "testgruppe"
 	},
 	"notifications": {
