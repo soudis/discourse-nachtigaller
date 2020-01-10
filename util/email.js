@@ -89,7 +89,7 @@ exports.listFolders = () => {
 					return folders;
 				}					
 			})
-			.finally(() => {
+			.then(() => {
 				return client.close();
 			});
 	} else {
